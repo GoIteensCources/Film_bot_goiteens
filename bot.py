@@ -1,40 +1,41 @@
 import asyncio
 import logging
 import sys
-from os import getenv
 
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import Command, CommandStart
+from aiogram.filters import  CommandStart
 from aiogram.types import Message
-from dotenv import load_dotenv
+from aiogram.types.bot_command import BotCommand
 
-load_dotenv()
+from app.commands import FILMS
+from app.handlers import router
+from app.keyboards import menu_keyboards
+from settings import TOKEN
 
-TOKEN = getenv("BOT_TOKEN")
-
-
-bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
+dp.include_router(router)
 
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    print(message.from_user)
-    await message.answer(f"Hello, {message.from_user.full_name}!")
-
-
-@dp.message()
-async def echo_handler(message: Message):
-    try:
-        # await message.send_copy(chat_id=message.chat.id)
-        await message.reply(message.text.upper())
-    except TypeError:
-        await message.answer("Nice try!")
+    await message.answer(
+        f"Hello, {message.from_user.full_name}!", reply_markup=menu_keyboards()
+    )
 
 
 async def main() -> None:
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
+    await bot.set_my_commands(
+        [
+            BotCommand(command=FILMS, description="Перегляд списку фільмів"),
+            BotCommand(command="start", description="Зaпуск ботa"),
+        ]
+    )
+
+    await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 

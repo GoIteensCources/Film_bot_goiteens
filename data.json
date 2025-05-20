@@ -1,0 +1,18 @@
+
+[
+    {
+    "title": "KUNG FU PANDA 4",
+    "desc": "Kung Fu Panda 4 is fun for the whole family -- maybe not as much fun as the first three, but still a good time. Read audience reviews",
+    "url": "https://www.rottentomatoes.com/m/kung_fu_panda_4",
+    "photo": "https://upload.wikimedia.org/wikipedia/ru/5/50/Kungfupanda_poster.jpg",
+    "rating": "72%"
+    },
+
+    {
+    "title": "Fallout",
+    "desc": "Fallout is the story of haves and have-nots in a world in which there\u2019s almost nothing left to have. Two-hundred years after the apocalypse, the gentle denizens of luxury fallout shelters are forced to return to the irradiated hellscape their ancestors left behind\u2014and are shocked to discover an",
+    "url": "https://www.rottentomatoes.com/tv/fallout/s01",
+    "photo": "https://upload.wikimedia.org/wikipedia/ru/f/f0/Fallout_Amazon_poster.jpeg",
+    "rating": "94%"
+    }
+]
