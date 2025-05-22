@@ -5,11 +5,11 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import  CommandStart
+from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.types.bot_command import BotCommand
 
-from app.commands import FILMS
+from app.commands import FILMS, CREATE_FILM
 from app.handlers import router
 from app.keyboards import menu_keyboards
 from settings import TOKEN
@@ -32,6 +32,7 @@ async def main() -> None:
         [
             BotCommand(command=FILMS, description="Перегляд списку фільмів"),
             BotCommand(command="start", description="Зaпуск ботa"),
+            BotCommand(command=CREATE_FILM, description="новий фільм"),
         ]
     )
 
