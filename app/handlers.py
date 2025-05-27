@@ -11,7 +11,7 @@ from app.keyboards import (
     films_keyboard_markup,
     menu_keyboards,
 )
-from settings import DATABASE
+from settings import DATABASE, PAGE_SIZE
 from app.fsm import FilmForm
 
 
@@ -25,6 +25,16 @@ async def films(message: Message) -> None:
     markup = films_keyboard_markup(films)
 
     await message.answer(f"All films: ", reply_markup=markup)
+
+
+@router.callback_query(F.data.startswith("page_"))
+async def pagination_films(callback: CallbackQuery) -> None:
+    page = int(callback.data.split("_")[1])
+    films_list = get_all_films(DATABASE)
+    keyboard = films_keyboard_markup(films_list, page)
+    
+    await callback.message.edit_reply_markup(reply_markup=keyboard)
+    await callback.answer()
 
 
 @router.callback_query(FilmCallback.filter())
