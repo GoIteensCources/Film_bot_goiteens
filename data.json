@@ -1,7 +1,7 @@
 [
     {
         "title": "KUNG FU PANDA 4",
-        "desc": "Kung Fu Panda 4 is fun for the whole family -- maybe not as much fun as the first three, but still a good time. Read audience reviews",
+        "desc": "панда Kung Fu Panda 4 is fun for the whole family -- maybe not as much fun as the first three, but still a good time. Read audience reviews",
         "url": "https://www.rottentomatoes.com/m/kung_fu_panda_4",
         "photo": "https://upload.wikimedia.org/wikipedia/ru/5/50/Kungfupanda_poster.jpg",
         "rating": "72%"
@@ -32,5 +32,17 @@
         "url": "https://www.rottentomatoes.com/m/a_minecraft_movie",
         "photo": "https://upload.wikimedia.org/wikipedia/ru/6/66/A_Minecraft_Movie_poster.jpg",
         "rating": "48%"
+    },
+    {
+        "title": "new film",
+        "desc": "some new film",
+        "rating": "100%",
+        "photo": "AgACAgIAAxkBAAIBImg4fVldZcAQzaBxyvjK00gM22BbAAIf8zEbri_ISUe4bX9CQsHLAQADAgADeAADNgQ"
+    },
+    {
+        "title": "назва фільму",
+        "desc": "іщьфіджєлвоамджл івоа ждлофівджл афів",
+        "rating": "1%",
+        "photo": "AgACAgIAAxkBAAIBM2g4fvhgjKTpNJjIvlHGjJdrkD5-AAIw8zEbri_ISYpHzTKPzb9rAQADAgADeAADNgQ"
     }
 ]

@@ -7,5 +7,5 @@ load_dotenv()
 
 TOKEN = os.getenv("BOT_TOKEN")
 DATABASE = "./data.json"
-PAGE_SIZE = 2
+PAGE_SIZE = 3
 

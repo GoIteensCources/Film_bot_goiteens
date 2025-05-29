@@ -9,7 +9,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.types.bot_command import BotCommand
 
-from app.commands import FILMS, CREATE_FILM
+from app.commands import FILMS, CREATE_FILM, SEARCH, DELETE_FILM
 from app.handlers import router
 from app.keyboards import menu_keyboards
 from settings import TOKEN
@@ -29,11 +29,14 @@ async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
     await bot.set_my_commands(
-        [
-            BotCommand(command=FILMS, description="Перегляд списку фільмів"),
+        [   
             BotCommand(command="start", description="Зaпуск ботa"),
-            BotCommand(command=CREATE_FILM, description="новий фільм"),
+            BotCommand(command=FILMS, description="Перегляд списку фільмів"), 
+            BotCommand(command=CREATE_FILM, description="Новий фільм"),
+            BotCommand(command=SEARCH, description="Пошук фільму"),
+            BotCommand(command=DELETE_FILM, description="Видалити фільм"),
         ]
+        
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

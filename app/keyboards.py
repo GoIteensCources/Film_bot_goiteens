@@ -3,8 +3,12 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from aiogram.types.inline_keyboard_button import InlineKeyboardButton
 from settings import PAGE_SIZE
+
+
 BUTTON_LIST_FILM = "Перелік фільмів"
 BUTTON_CREATE_FILM = "Додати новий фільм"
+BUTTON_SEARCH = "Знайти фільм"
+BUTTON_DELETE = "Видалити фільм"
 
 
 def menu_keyboards():
@@ -12,7 +16,9 @@ def menu_keyboards():
 
     builder.button(text=BUTTON_LIST_FILM)
     builder.button(text=BUTTON_CREATE_FILM)
-
+    builder.button(text=BUTTON_SEARCH)
+    builder.button(text=BUTTON_DELETE)
+    
     markup = builder.as_markup()
     markup.resize_keyboard = True
     return markup

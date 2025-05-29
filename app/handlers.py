@@ -2,22 +2,24 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message, URLInputFile, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
-from app.commands import FILMS, CREATE_FILM
+from app.commands import FILMS, CREATE_FILM, SEARCH, DELETE_FILM
 from app.database import get_all_films, get_film, add_film
 from app.keyboards import (
     BUTTON_LIST_FILM,
     BUTTON_CREATE_FILM,
+    BUTTON_DELETE,
+    BUTTON_SEARCH,
     FilmCallback,
     films_keyboard_markup,
     menu_keyboards,
 )
 from settings import DATABASE, PAGE_SIZE
-from app.fsm import FilmForm
+from app.fsm import FilmForm, FilmStates
 
 
 router = Router()
 
-
+# all films
 @router.message(Command(FILMS))
 @router.message(F.text == BUTTON_LIST_FILM)
 async def films(message: Message) -> None:
@@ -26,7 +28,7 @@ async def films(message: Message) -> None:
 
     await message.answer(f"All films: ", reply_markup=markup)
 
-
+# calback for pagination buttons
 @router.callback_query(F.data.startswith("page_"))
 async def pagination_films(callback: CallbackQuery) -> None:
     page = int(callback.data.split("_")[1])
@@ -39,7 +41,6 @@ async def pagination_films(callback: CallbackQuery) -> None:
 
 @router.callback_query(FilmCallback.filter())
 async def callb_film(callback: CallbackQuery, callback_data: FilmCallback) -> None:
-    print(callback_data)
     film_id = callback_data.id
     film_data = get_film(DATABASE, film_id)
 
@@ -105,3 +106,53 @@ async def film_poster(message: Message, state: FSMContext):
     else:
         data = await state.get_data()
         await message.answer(f"Це не фото, додайте афішу до {data.get("title")}")
+
+
+#search
+@router.message(Command(SEARCH))
+@router.message(F.text == BUTTON_SEARCH)
+async def search_film(message: Message, state: FSMContext):
+    await state.set_state(FilmStates.search_title)
+    await message.answer(f"Введіть назву фільму для пошуку: ", reply_markup=ReplyKeyboardRemove())
+
+
+@router.message(FilmStates.search_title)
+async def make_search(message: Message, state: FSMContext):
+    title = message.text.lower()
+    await state.update_data(title=message.text)
+    
+    list_films: list[dict] = get_all_films(DATABASE)
+    
+    result = [film for film in list_films if title in film["title"].lower()]
+    if result:
+        for film in result:            
+            await message.reply(f"знайшли: {film["title"]}: {film["desc"]}", 
+                                reply_markup=menu_keyboards())
+            break
+    else:
+        await message.reply(f"Нiчого немає", reply_markup=menu_keyboards())
+    
+    await state.clear()
+
+
+# delete
+@router.message(Command(DELETE_FILM))
+@router.message(F.text == BUTTON_DELETE)
+async def delete_film(message: Message, state: FSMContext):
+    await state.set_state(FilmStates.delete_film)
+    await message.answer(f"Введіть назву фільму для видалення: ", reply_markup=ReplyKeyboardRemove())
+    
+    
+@router.message(FilmStates.delete_film)
+async def make_delete(message: Message, state: FSMContext):
+    title = message.text.lower()
+    ...
+    await state.set_state(FilmStates.delete_confirm)
+
+    
+@router.message(FilmStates.delete_confirm)
+async def make_delete_copnfirm(message: Message, state: FSMContext):
+    title = message.text.lower() # yes/no
+    ...
+
+    await state.clear()
