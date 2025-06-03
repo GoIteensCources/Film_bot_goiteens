@@ -2,6 +2,7 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from aiogram.types.inline_keyboard_button import InlineKeyboardButton
+from aiogram.types.reply_keyboard_markup import ReplyKeyboardButton
 from settings import PAGE_SIZE
 
 

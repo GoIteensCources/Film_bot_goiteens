@@ -14,15 +14,28 @@ from app.handlers import router
 from app.keyboards import menu_keyboards
 from settings import TOKEN
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import datetime as dt
+
+
 dp = Dispatcher()
 dp.include_router(router)
-
+USER_ID = 494037148
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
+    global USER_ID
+    
+    USER_ID = message.from_user.id
+    
     await message.answer(
-        f"Hello, {message.from_user.full_name}!", reply_markup=menu_keyboards()
+        f"Hello, {message.from_user.full_name}!with ID {message.from_user.id}", reply_markup=menu_keyboards()
     )
+
+
+async def message_cron(bot: Bot, user_id: int):
+    await bot.send_message(user_id, text=f"This message send at {dt.datetime.now()}")
+
 
 
 async def main() -> None:
@@ -39,6 +52,18 @@ async def main() -> None:
         
     )
 
+    scheduler = AsyncIOScheduler()
+    
+    scheduler.add_job(
+        message_cron,
+        trigger="interval",
+        minutes=0.3,
+        start_date=dt.datetime.now(),
+        kwargs = {"bot": bot, "user_id": USER_ID}     
+    )
+    
+    scheduler.start()
+    
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
