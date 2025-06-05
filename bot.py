@@ -48,26 +48,27 @@ async def main() -> None:
             BotCommand(command=CREATE_FILM, description="Новий фільм"),
             BotCommand(command=SEARCH, description="Пошук фільму"),
             BotCommand(command=DELETE_FILM, description="Видалити фільм"),
+            BotCommand(command="cancel", description="Прервати додавання фільму"),
         ]
         
     )
 
-    scheduler = AsyncIOScheduler()
+    # scheduler = AsyncIOScheduler()
     
-    scheduler.add_job(
-        message_cron,
-        trigger="interval",
-        minutes=0.3,
-        start_date=dt.datetime.now(),
-        kwargs = {"bot": bot, "user_id": USER_ID}     
-    )
+    # scheduler.add_job(
+    #     message_cron,
+    #     trigger="interval",
+    #     minutes=0.3,
+    #     start_date=dt.datetime.now(),
+    #     kwargs = {"bot": bot, "user_id": USER_ID}     
+    # )
     
-    scheduler.start()
+    # scheduler.start()
     
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    # logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
