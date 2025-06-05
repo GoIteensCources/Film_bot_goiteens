@@ -2,9 +2,10 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from aiogram.types.inline_keyboard_button import InlineKeyboardButton
-from aiogram.types.reply_keyboard_markup import ReplyKeyboardButton
 from settings import PAGE_SIZE
+import logging
 
+logger = logging.getLogger(__name__)
 
 BUTTON_LIST_FILM = "Перелік фільмів"
 BUTTON_CREATE_FILM = "Додати новий фільм"
@@ -14,11 +15,14 @@ BUTTON_DELETE = "Видалити фільм"
 
 def menu_keyboards():
     builder = ReplyKeyboardBuilder()
+    
+    logger.info("Cтворена головна клавіатура")
 
     builder.button(text=BUTTON_LIST_FILM)
     builder.button(text=BUTTON_CREATE_FILM)
     builder.button(text=BUTTON_SEARCH)
     builder.button(text=BUTTON_DELETE)
+    builder.adjust(2)
     
     markup = builder.as_markup()
     markup.resize_keyboard = True

@@ -2,7 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 
 
-def get_all_films(file_path: str) -> list[dict]:
+def get_all_films(file_path: str):
     try:
         with open(file_path, "r") as fd:
             films = json.load(fd)
