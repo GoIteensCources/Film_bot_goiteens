@@ -7,14 +7,19 @@ class FilmForm(StatesGroup):
     rating = State()
     photo = State()
 
+    def __str__(self):
+        return super().__str__()
+
+    def __repr__(self):
+        return super().__repr__()
+
 
 class FilmStates(StatesGroup):
     search_title = State()
-    
+
     delete_film = State()
     delete_confirm = State()
-    
+
     edit_film = State()
-    
+
     change_rating = State()
-    

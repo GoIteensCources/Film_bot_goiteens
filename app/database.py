@@ -7,7 +7,7 @@ def get_all_films(file_path: str):
         with open(file_path, "r") as fd:
             films = json.load(fd)
             return films
-    except JSONDecodeError as e:
+    except JSONDecodeError:
         return
 
 
@@ -24,4 +24,4 @@ def add_film(file_path: str, data_film: dict):
     films.append(data_film)
 
     with open(file_path, "w") as fd:
-        json.dump( films, fd, indent=4, ensure_ascii=False)
+        json.dump(films, fd, indent=4, ensure_ascii=False)
